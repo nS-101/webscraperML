@@ -14,7 +14,16 @@ try:
                    )
                    """)
     
- 
+    cursor.execute("""
+            CREATE TABLE IF NOT EXISTS prices(
+                   id INTEGER PRIMARY KEY AUTOINCREMENT,
+                   bookID INTEGER NOT NULL,
+                   price REAL NOT NULL,
+                   availability TEXT NOT NULL,
+                   scrapedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                   FOREIGN KEY (bookID) REFERENCES books(id)
+                   )
+                   """)
     
     connection.commit()
     connection.close()
