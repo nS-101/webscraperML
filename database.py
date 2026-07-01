@@ -50,4 +50,16 @@ def insertBook(title, genre, description, url):
     except sqlite3.Error as error:
         print(f"there is an error {error}")
 
- 
+def insertPrice(bookID, price, availability):
+    try: 
+        connection = sqlite3.connect("database.db")
+        cursor = connection.cursor()
+        cursor.execute(""" 
+                           INSERT INTO prices (bookID, price, availability)
+                       VALUES(?, ?, ?)
+                        """, (bookID, price, availability))
+        connection.commit()
+        connection.close()
+    
+    except sqlite3.Error as error:
+        print(f"error is {error}")
