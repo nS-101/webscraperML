@@ -1,6 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 import time 
+import random
+from database import insertBook, insertPrice
+
 
 counter = 0
 
@@ -27,7 +30,8 @@ while url:
 
         bookPrice = book.find("p", class_ = "price_color").text #find first p element with the price class to extract book price and have to use .text to extract just the actual text 
         bookPrice = float(bookPrice[1:]) #get rid of currency symbol so it's just numbers
-        
+        simulatedPrice = round(float(bookPrice) + random.uniform(-2.0, 2.0), 2)
+
         genreURL = book.find("a", href=True)
         genreURL = genreURL.get("href") #.get to obtain the actual href link instead of the tag contents(.text)
         if not genreURL.startswith("catalogue/"):
@@ -70,7 +74,8 @@ while url:
         books.append(bookDict)
         #dictionary to store key-value pairs based on book properties
     #end of book appendings for that page
-    
+        bookID = insertBook(bookTitle, genre, bookDescription, completeURL)
+        insertPrice(bookID, simulatedPrice, availability)
     nextPage = soup.find("li", class_="next")
     if(nextPage):
         nextPage = nextPage.find("a").get("href") #get link for next page
