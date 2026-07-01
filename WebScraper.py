@@ -26,7 +26,7 @@ while url:
         #have to use .find in a nested fashion to obtain the title since it isn't an actual html tag
 
         bookPrice = book.find("p", class_ = "price_color").text #find first p element with the price class to extract book price and have to use .text to extract just the actual text 
-        bookPrice = bookPrice[1:] #get rid of currency symbol so it's just numbers
+        bookPrice = float(bookPrice[1:]) #get rid of currency symbol so it's just numbers
         
         genreURL = book.find("a", href=True)
         genreURL = genreURL.get("href") #.get to obtain the actual href link instead of the tag contents(.text)
