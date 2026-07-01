@@ -43,7 +43,7 @@ def insertBook(title, genre, description, url):
         connection.commit()
 
         cursor.execute("SELECT id FROM books WHERE url = ?", (url,))
-        bookID = cursor.fetchone[0] #get the book id
+        bookID = cursor.fetchone()[0] #get the book id
         connection.close()
         return bookID
 
