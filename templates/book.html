@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}{{ book.title }} — Book Price Tracker{% endblock %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .back { font-size: 0.85rem; color: #666; text-decoration: none; display: inline-block; margin-bottom: 1rem; }
+    .back:hover { text-decoration: underline; }
+    .book-header {
+        background: #fff;
+        border-radius: 6px;
+        padding: 1.25rem 1.5rem;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        margin-bottom: 1.5rem;
+    }
+    .book-header h1 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem; font-size: 0.9rem; color: #555; }
+    .badge {
+        display: inline-block;
+        background: #e8f4fd;
+        color: #2980b9;
+        border-radius: 3px;
+        padding: 0.1rem 0.45rem;
+        font-size: 0.85rem;
+    }
+    .avail { font-weight: 500; }
+    .avail-in { color: #27ae60; }
+    .avail-out { color: #e74c3c; }
+    .description { font-size: 0.9rem; line-height: 1.6; color: #444; margin-top: 0.75rem; }
+    .source-link { font-size: 0.85rem; color: #2980b9; margin-top: 0.5rem; display: inline-block; }
+    .chart-card {
+        background: #fff;
+        border-radius: 6px;
+        padding: 1.25rem 1.5rem;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .chart-card h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+    .chart-wrap { position: relative; height: 300px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<a class="back" href="/">← Back to all books</a>
+
+<div class="book-header">
+    <h1>{{ book.title }}</h1>
+    <div class="meta">
+        <span><span class="badge">{{ book.genre }}</span></span>
+        <span class="avail {{ 'avail-in' if 'In stock' in book.availability else 'avail-out' }}">
+            {{ book.availability }}
+        </span>
+    </div>
+    {% if book.description %}
+    <p class="description">{{ book.description }}</p>
+    {% endif %}
+    <a class="source-link" href="{{ book.url }}" target="_blank" rel="noopener">View on books.toscrape.com ↗</a>
+</div>
+
+<div class="chart-card">
+    <h2>Price History</h2>
+    <div class="chart-wrap">
+        <canvas id="priceChart"></canvas>
+    </div>
+</div>
+
+<script>
+    const labels = {{ labels|safe }};
+    const prices = {{ prices|safe }};
+
+    new Chart(document.getElementById("priceChart"), {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Price (£)",
+                data: prices,
+                borderColor: "#2980b9",
+                backgroundColor: "rgba(41, 128, 185, 0.08)",
+                borderWidth: 2,
+                pointRadius: 3,
+                tension: 0.3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => "£" + ctx.parsed.y.toFixed(2)
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        maxTicksLimit: 10,
+                        maxRotation: 45,
+                        font: { size: 11 }
+                    }
+                },
+                y: {
+                    ticks: {
+                        callback: val => "£" + val.toFixed(2)
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

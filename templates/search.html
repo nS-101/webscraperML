@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Search — Book Price Tracker{% endblock %}
+
+{% block head %}
+<style>
+    .search-box {
+        background: #fff;
+        border-radius: 6px;
+        padding: 2rem;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        max-width: 600px;
+    }
+    .search-box p {
+        font-size: 0.95rem;
+        color: #555;
+        margin-bottom: 1.25rem;
+        line-height: 1.6;
+    }
+    .search-row {
+        display: flex;
+        gap: 0.5rem;
+    }
+    .search-row input {
+        flex: 1;
+        padding: 0.55rem 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 0.95rem;
+    }
+    .search-row button {
+        padding: 0.55rem 1.1rem;
+        background: #2c3e50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+    .coming-soon {
+        margin-top: 1.25rem;
+        padding: 0.75rem 1rem;
+        background: #fff8e1;
+        border-left: 3px solid #f39c12;
+        border-radius: 3px;
+        font-size: 0.88rem;
+        color: #7d5c00;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Semantic Search</h1>
+
+<div class="search-box">
+    <p>Describe the kind of book you're looking for in plain English and we'll find the closest matches using semantic similarity.</p>
+    <form class="search-row" method="get" action="/search">
+        <input
+            type="text"
+            name="q"
+            placeholder="e.g. a dark mystery set in Victorian London..."
+            value="{{ query }}"
+        >
+        <button type="submit">Search</button>
+    </form>
+    <div class="coming-soon">
+        ML-powered search (SentenceTransformer) coming in August.
+    </div>
+</div>
+{% endblock %}

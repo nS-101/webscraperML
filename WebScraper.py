@@ -73,11 +73,11 @@ while url:
             "availability": availability,
             "book URL": completeURL
         }
-        books.append(bookDict)
-        #dictionary to store key-value pairs based on book properties
-    #end of book appendings for that page
+        books.append(bookDict) #dictionary to store key-value pairs based on book properties
         bookID = insertBook(bookTitle, genre, bookDescription, completeURL)
         insertPrice(bookID, simulatedPrice, availability)
+        print(f"{bookTitle} is here and so is {genre}")
+
     nextPage = soup.find("li", class_="next")
     if(nextPage):
         nextPage = nextPage.find("a").get("href") #get link for next page
