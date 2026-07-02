@@ -50,8 +50,10 @@ while url:
 
         productPage = soup2.find("article", class_ = "product_page")
         bookDescription = productPage.find(id="product_description", class_="sub-header")
-        bookDescription = bookDescription.find_next("p").text.strip() #extract the description of the book
-    
+        if(bookDescription is not None):
+            bookDescription = bookDescription.find_next("p").text.strip() #extract the description of the book
+        else:
+            bookDescription = "" #set to empty instead of None
         #parentAvailability = soup2.find("div", class_="row")
         availability = soup2.find_next("p", class_="availability")
         if(availability):
@@ -79,6 +81,9 @@ while url:
     nextPage = soup.find("li", class_="next")
     if(nextPage):
         nextPage = nextPage.find("a").get("href") #get link for next page
-        url = catalogueURL + nextPage
+        if(nextPage.startswith("catalogue/")):
+            url = url2 + nextPage
+        else:
+            url = catalogueURL + nextPage
     else:
         url = None #no more pages left
