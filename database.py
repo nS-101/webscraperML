@@ -25,6 +25,17 @@ try:
                    )
                    """)
     
+    cursor.execute("""
+            CREATE TABLE IF NOT EXISTS embeddings(
+                   id INTEGER PRIMARY KEY AUTOINCREMENT,
+                   bookID INTEGER NOT NULL,
+                   embedding BLOB NOT NULL,
+                   FOREIGN KEY (bookID) REFERENCES books(id)
+                   )
+                   """)
+    
+    #using BLOB data type to store embeddings because it's the most
+    #pragmatic way to store 768 numbers to represent the embeddings
     connection.commit()
     connection.close()
     
