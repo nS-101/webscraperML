@@ -2,6 +2,9 @@ import sqlite3
 import json
 import os
 from flask import Flask, render_template, request, abort
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 
 app = Flask(__name__)
 
