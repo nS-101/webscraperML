@@ -37,15 +37,26 @@
         cursor: pointer;
         font-size: 0.9rem;
     }
-    .coming-soon {
-        margin-top: 1.25rem;
-        padding: 0.75rem 1rem;
-        background: #fff8e1;
-        border-left: 3px solid #f39c12;
-        border-radius: 3px;
-        font-size: 0.88rem;
-        color: #7d5c00;
+    .results { margin-top: 1.5rem; }
+    .result-card {
+        background: #fff;
+        border-radius: 6px;
+        padding: 1rem 1.25rem;
+        margin-bottom: 0.75rem;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
     }
+    .result-card a {
+        color: #2980b9;
+        text-decoration: none;
+        font-weight: 500;
+        flex: 1;
+    }
+    .result-card a:hover { text-decoration: underline; }
+    .price { color: #27ae60; font-weight: 500; }
+    .no-results { margin-top: 1.25rem; color: #666; }
 </style>
 {% endblock %}
 
@@ -63,8 +74,22 @@
         >
         <button type="submit">Search</button>
     </form>
-    <div class="coming-soon">
-        ML-powered search (SentenceTransformer) coming in August.
-    </div>
 </div>
+
+{% if query %}
+    {% if results %}
+    <div class="results">
+        {% for book in results %}
+        <div class="result-card">
+            <a href="/book/{{ book.id }}">{{ book.title }}</a>
+            <span class="badge">{{ book.genre }}</span>
+            <span class="price">£{{ "%.2f"|format(book.price) }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-results">No results found for "{{ query }}".</p>
+    {% endif %}
+{% endif %}
+
 {% endblock %}
