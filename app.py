@@ -136,7 +136,6 @@ def search():
                 "genre": currentResults["genre"],
                 "price": currentResults["price"] 
             })
- 
     connection.close()
     return render_template("search.html", query=query, results=results)
     #does this run every time that a user searches???????

@@ -5,15 +5,15 @@
 {% block head %}
 <style>
     .search-box {
-        background: #fff;
-        border-radius: 6px;
+        background: var(--surface);
+        border-radius: var(--radius);
         padding: 2rem;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-        max-width: 600px;
+        box-shadow: var(--shadow);
+        max-width: 640px;
     }
     .search-box p {
         font-size: 0.95rem;
-        color: #555;
+        color: var(--ink-soft);
         margin-bottom: 1.25rem;
         line-height: 1.6;
     }
@@ -23,40 +23,72 @@
     }
     .search-row input {
         flex: 1;
-        padding: 0.55rem 0.75rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+        padding: 0.65rem 0.85rem;
+        border: 1px solid var(--line);
+        border-radius: 6px;
         font-size: 0.95rem;
     }
+    .search-row input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-soft);
+    }
     .search-row button {
-        padding: 0.55rem 1.1rem;
-        background: #2c3e50;
+        padding: 0.65rem 1.25rem;
+        background: var(--brand);
         color: #fff;
         border: none;
-        border-radius: 4px;
+        border-radius: 6px;
         cursor: pointer;
         font-size: 0.9rem;
+        font-weight: 500;
+        transition: background 0.15s ease;
     }
-    .results { margin-top: 1.5rem; }
+    .search-row button:hover { background: var(--brand-dark); }
+    .results-intro {
+        margin-top: 1.75rem;
+        margin-bottom: 0.9rem;
+        font-size: 0.92rem;
+        color: var(--ink-soft);
+    }
+    .results-intro strong { color: var(--ink); }
+    .results { margin-top: 0.5rem; }
     .result-card {
-        background: #fff;
-        border-radius: 6px;
+        background: var(--surface);
+        border-radius: var(--radius);
         padding: 1rem 1.25rem;
         margin-bottom: 0.75rem;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        box-shadow: var(--shadow);
         display: flex;
         align-items: center;
         gap: 1rem;
+        border-left: 3px solid var(--accent);
     }
     .result-card a {
-        color: #2980b9;
+        color: var(--brand);
         text-decoration: none;
-        font-weight: 500;
+        font-weight: 600;
         flex: 1;
     }
-    .result-card a:hover { text-decoration: underline; }
-    .price { color: #27ae60; font-weight: 500; }
-    .no-results { margin-top: 1.25rem; color: #666; }
+    .result-card a:hover { color: var(--accent); text-decoration: underline; }
+    .badge {
+        display: inline-block;
+        background: var(--accent-soft);
+        color: var(--accent);
+        border-radius: 999px;
+        padding: 0.15rem 0.65rem;
+        font-size: 0.78rem;
+        font-weight: 500;
+    }
+    .price { color: var(--good); font-weight: 600; }
+    .no-results {
+        margin-top: 1.25rem;
+        color: var(--ink-soft);
+        background: var(--surface);
+        border-radius: var(--radius);
+        padding: 1rem 1.25rem;
+        box-shadow: var(--shadow);
+    }
 </style>
 {% endblock %}
 
@@ -78,6 +110,7 @@
 
 {% if query %}
     {% if results %}
+    <p class="results-intro">Books matching your description "<strong>{{ query }}</strong>":</p>
     <div class="results">
         {% for book in results %}
         <div class="result-card">

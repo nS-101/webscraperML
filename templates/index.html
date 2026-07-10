@@ -8,54 +8,72 @@
         display: flex;
         align-items: center;
         gap: 0.75rem;
-        margin-bottom: 1.25rem;
+        margin-bottom: 1.5rem;
+        background: var(--surface);
+        padding: 0.85rem 1.1rem;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
     }
+    .filters label { font-size: 0.88rem; color: var(--ink-soft); font-weight: 500; }
     .filters select {
-        padding: 0.4rem 0.6rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 0.9rem;
+        padding: 0.45rem 0.65rem;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        font-size: 0.88rem;
+        background: #fff;
+        color: var(--ink);
     }
     .filters button {
-        padding: 0.4rem 0.8rem;
-        background: #2c3e50;
+        padding: 0.45rem 0.95rem;
+        background: var(--brand);
         color: #fff;
         border: none;
-        border-radius: 4px;
+        border-radius: 6px;
         cursor: pointer;
-        font-size: 0.9rem;
+        font-size: 0.88rem;
+        font-weight: 500;
+        transition: background 0.15s ease;
     }
+    .filters button:hover { background: var(--brand-dark); }
     .filters a {
         font-size: 0.85rem;
-        color: #666;
+        color: var(--ink-soft);
         text-decoration: none;
     }
-    .filters a:hover { text-decoration: underline; }
+    .filters a:hover { color: var(--accent); }
     table {
         width: 100%;
         border-collapse: collapse;
-        background: #fff;
-        border-radius: 6px;
+        background: var(--surface);
+        border-radius: var(--radius);
         overflow: hidden;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        box-shadow: var(--shadow);
     }
-    thead { background: #2c3e50; color: #fff; }
-    th, td { padding: 0.65rem 1rem; text-align: left; font-size: 0.9rem; }
-    tbody tr:nth-child(even) { background: #f9f9f9; }
-    tbody tr:hover { background: #eaf4ff; }
-    td a { color: #2980b9; text-decoration: none; }
-    td a:hover { text-decoration: underline; }
+    thead { background: var(--brand); color: #fff; }
+    th {
+        padding: 0.75rem 1.1rem;
+        text-align: left;
+        font-size: 0.78rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+    td { padding: 0.75rem 1.1rem; text-align: left; font-size: 0.9rem; border-top: 1px solid var(--line); }
+    tbody tr:hover { background: var(--accent-soft); }
+    td a { color: var(--brand); text-decoration: none; font-weight: 500; }
+    td a:hover { color: var(--accent); text-decoration: underline; }
     .badge {
         display: inline-block;
-        background: #e8f4fd;
-        color: #2980b9;
-        border-radius: 3px;
-        padding: 0.1rem 0.45rem;
-        font-size: 0.8rem;
+        background: var(--accent-soft);
+        color: var(--accent);
+        border-radius: 999px;
+        padding: 0.15rem 0.65rem;
+        font-size: 0.78rem;
+        font-weight: 500;
     }
-    .avail-in { color: #27ae60; font-weight: 500; }
-    .avail-out { color: #e74c3c; font-weight: 500; }
-    .count { color: #666; font-size: 0.9rem; margin-bottom: 0.75rem; }
+    .avail-in { color: var(--good); font-weight: 600; }
+    .avail-out { color: var(--bad); font-weight: 600; }
+    .count { color: var(--ink-soft); font-size: 0.88rem; margin-bottom: 0.85rem; }
 </style>
 {% endblock %}
 

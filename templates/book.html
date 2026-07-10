@@ -5,37 +5,54 @@
 {% block head %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-    .back { font-size: 0.85rem; color: #666; text-decoration: none; display: inline-block; margin-bottom: 1rem; }
-    .back:hover { text-decoration: underline; }
-    .book-header {
-        background: #fff;
-        border-radius: 6px;
-        padding: 1.25rem 1.5rem;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-        margin-bottom: 1.5rem;
+    .back {
+        font-size: 0.85rem;
+        color: var(--ink-soft);
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 1.25rem;
+        font-weight: 500;
     }
-    .book-header h1 { font-size: 1.4rem; margin-bottom: 0.5rem; }
-    .meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem; font-size: 0.9rem; color: #555; }
+    .back:hover { color: var(--accent); }
+    .book-header {
+        background: var(--surface);
+        border-radius: var(--radius);
+        padding: 1.5rem 1.75rem;
+        box-shadow: var(--shadow);
+        margin-bottom: 1.5rem;
+        border-top: 3px solid var(--accent);
+    }
+    .book-header h1 { font-size: 1.45rem; margin-bottom: 0.65rem; letter-spacing: -0.01em; }
+    .meta { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.85rem; font-size: 0.9rem; color: var(--ink-soft); }
     .badge {
         display: inline-block;
-        background: #e8f4fd;
-        color: #2980b9;
-        border-radius: 3px;
-        padding: 0.1rem 0.45rem;
+        background: var(--accent-soft);
+        color: var(--accent);
+        border-radius: 999px;
+        padding: 0.15rem 0.65rem;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    .avail { font-weight: 600; font-size: 0.85rem; }
+    .avail-in { color: var(--good); }
+    .avail-out { color: var(--bad); }
+    .description { font-size: 0.92rem; line-height: 1.65; color: var(--ink); margin-top: 0.85rem; }
+    .source-link {
         font-size: 0.85rem;
+        color: var(--accent);
+        margin-top: 0.9rem;
+        display: inline-block;
+        text-decoration: none;
+        font-weight: 500;
     }
-    .avail { font-weight: 500; }
-    .avail-in { color: #27ae60; }
-    .avail-out { color: #e74c3c; }
-    .description { font-size: 0.9rem; line-height: 1.6; color: #444; margin-top: 0.75rem; }
-    .source-link { font-size: 0.85rem; color: #2980b9; margin-top: 0.5rem; display: inline-block; }
+    .source-link:hover { text-decoration: underline; }
     .chart-card {
-        background: #fff;
-        border-radius: 6px;
-        padding: 1.25rem 1.5rem;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        background: var(--surface);
+        border-radius: var(--radius);
+        padding: 1.5rem 1.75rem;
+        box-shadow: var(--shadow);
     }
-    .chart-card h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+    .chart-card h2 { font-size: 1.05rem; font-weight: 700; margin-bottom: 1.1rem; }
     .chart-wrap { position: relative; height: 300px; }
 </style>
 {% endblock %}
@@ -75,8 +92,8 @@
             datasets: [{
                 label: "Price (£)",
                 data: prices,
-                borderColor: "#2980b9",
-                backgroundColor: "rgba(41, 128, 185, 0.08)",
+                borderColor: "#2f7fd6",
+                backgroundColor: "rgba(47, 127, 214, 0.08)",
                 borderWidth: 2,
                 pointRadius: 3,
                 tension: 0.3,
