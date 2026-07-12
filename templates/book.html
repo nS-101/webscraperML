@@ -113,7 +113,7 @@
 
 {% if similarBooks %}
 <div class="similar-section">
-    <h2>You might also like</h2>
+    <h2>Similar Books to Check Out</h2>
     {% for similarBook in similarBooks %}
     <div class="result-card">
         <a href="/book/{{ similarBook.id }}">{{ similarBook.title }}</a>
