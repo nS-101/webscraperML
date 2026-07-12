@@ -54,6 +54,36 @@
     }
     .chart-card h2 { font-size: 1.05rem; font-weight: 700; margin-bottom: 1.1rem; }
     .chart-wrap { position: relative; height: 300px; }
+    .similar-section { margin-top: 1.5rem; }
+    .similar-section h2 { font-size: 1.05rem; font-weight: 700; margin-bottom: 1.1rem; }
+    .result-card {
+        background: var(--surface);
+        border-radius: var(--radius);
+        padding: 1rem 1.25rem;
+        margin-bottom: 0.75rem;
+        box-shadow: var(--shadow);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border-left: 3px solid var(--accent);
+    }
+    .result-card a {
+        color: var(--brand);
+        text-decoration: none;
+        font-weight: 600;
+        flex: 1;
+    }
+    .result-card a:hover { color: var(--accent); text-decoration: underline; }
+    .badge {
+        display: inline-block;
+        background: var(--accent-soft);
+        color: var(--accent);
+        border-radius: 999px;
+        padding: 0.15rem 0.65rem;
+        font-size: 0.78rem;
+        font-weight: 500;
+    }
+    .price { color: var(--good); font-weight: 600; }
 </style>
 {% endblock %}
 
@@ -80,6 +110,19 @@
         <canvas id="priceChart"></canvas>
     </div>
 </div>
+
+{% if similarBooks %}
+<div class="similar-section">
+    <h2>You might also like</h2>
+    {% for similarBook in similarBooks %}
+    <div class="result-card">
+        <a href="/book/{{ similarBook.id }}">{{ similarBook.title }}</a>
+        <span class="badge">{{ similarBook.genre }}</span>
+        <span class="price">£{{ "%.2f"|format(similarBook.price) }}</span>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
 
 <script>
     const labels = {{ labels|safe }};
