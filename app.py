@@ -60,10 +60,66 @@ def index():
 @app.route("/book/<int:bookId>")
 def bookDetail(bookId):
     conn = getDb()
+    cursor = conn.cursor()
+
+    results = []
+
+    cursor.execute("""
+                SELECT bookID, embedding FROM embeddings
+                   """)
+    everything = cursor.fetchall()
+    bookIDsFromTable = [row[0] for row in everything] #create list of just ids
+    embeddingsOfBooksFromTable = [row[1] for row in everything] #create list of embeddings
+
+    deconstructedBookIDs = []
+    deconstructedEmbeddings = []
+    for i in range(len(embeddingsOfBooksFromTable)):
+        deconstructedBookIDs.append(bookIDsFromTable[i]) #add id to list
+        decodedEmbedding = np.frombuffer(embeddingsOfBooksFromTable[i], dtype=np.float32) #convert from BLOB to array of floats(deconversion)
+        deconstructedEmbeddings.append(decodedEmbedding) #add decoded embedding to the list
+
 
     book = conn.execute("SELECT * FROM books WHERE id = ?", (bookId,)).fetchone()
+    
     if not book:
         abort(404)
+
+    bookDescription = book["description"] #get book description
+    if bookDescription:
+        encodedBookDescription = model.encode(bookDescription) #encode the description
+        encodedBookDescription = [encodedBookDescription] #turn into 2d array for cosine_similarity method
+               
+        collapsedArray = np.stack(deconstructedEmbeddings, axis=0) #arrays are stored horizontally
+        similarityScores = cosine_similarity(encodedBookDescription, collapsedArray) #run the cosine method to compare user embedding to the other embeddings
+        similarityScores = similarityScores[0] #get similarity scores for the user search
+
+        similarityScores = np.argsort(similarityScores)[::-1] #sort indexes by highest similarity to the lowest
+        topFiveSimilarity = similarityScores[:6] #get five highest similarity scores
+
+        topFiveBookIDs = []
+        for index in topFiveSimilarity:
+            if(deconstructedBookIDs[index] != bookId): #make sure we dont get the same book as the one in question
+                topFiveBookIDs.append(deconstructedBookIDs[index]) #create list of top five bookids corresponding to the top five similarity scores
+        
+        topFiveBookIDs = topFiveBookIDs[:5] #trim to five highest similarity scores
+#we now have a way for the user to click on a book and then see five books similar to the book they clicked on
+
+        for id in topFiveBookIDs:
+            cursor.execute("""
+                           SELECT b.id, b.title, b.genre, p.price
+                            FROM books b
+                            JOIN prices p ON b.id = p.bookID
+                            WHERE b.id = ?
+                            AND p.id = (SELECT MAX(id) FROM prices WHERE bookID = b.id)
+                           """,(id,))
+            currentResults =  cursor.fetchone()
+            results.append({
+                "id": currentResults["id"],
+                "title": currentResults["title"],
+                "genre": currentResults["genre"],
+                "price": currentResults["price"] 
+            })
+
 
     priceHistory = conn.execute(
         "SELECT price, scrapedAt FROM prices WHERE bookID = ? ORDER BY scrapedAt",
@@ -80,6 +136,7 @@ def bookDetail(bookId):
         book=book,
         labels=json.dumps(labels),
         prices=json.dumps(prices),
+        similarBooks = results
     )
 
 
