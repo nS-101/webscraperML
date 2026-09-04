@@ -1,4 +1,4 @@
-# 📚 Book Discovery & Price Tracking Platform
+#Book Discovery & Price Tracking Platform
 
 A full-stack web application that scrapes book data, tracks price history over time, and uses NLP-powered semantic search to find books by meaning rather than keywords.
 
